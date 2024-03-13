@@ -1,7 +1,6 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-   # События, которые запускают jobs
     push:
       branches: [ "SnakeKate-patch-1" ]
 jobs:

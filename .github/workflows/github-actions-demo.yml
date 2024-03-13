@@ -1,10 +1,20 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+   # События, которые запускают jobs
+    push:
+      branches: [ "SnakeKate-patch-1" ]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  # Explore-GitHub-Actions:
+  deploy:
+    runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
+      - run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f5x0f9b5
+      - run: docker build -t help .
+      - run: docker tag help:latest public.ecr.aws/f5x0f9b5/help:latest
+      - run: docker push public.ecr.aws/f5x0f9b5/help:latest
+      
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."

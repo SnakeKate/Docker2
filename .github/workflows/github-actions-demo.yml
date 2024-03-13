@@ -9,12 +9,12 @@ jobs:
     runs-on: self-hosted
     steps:
      - name: Configure AWS Credentials
-     - uses: actions/checkout@v2
      - uses: aws-actions/configure-aws-credentials@v4
        with:
          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         aws-region: eu-north-1   
+         aws-region: eu-north-1
+     - uses: actions/checkout@v2
      - run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f5x0f9b5
      - run: docker build -t help .
      - run: docker tag help:latest public.ecr.aws/f5x0f9b5/help:latest

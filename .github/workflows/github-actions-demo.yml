@@ -5,6 +5,7 @@ on:
       branches: [ "SnakeKate-patch-1" ]
 jobs:
   # Explore-GitHub-Actions:
+  
   deploy:
   # Вибираю де воно повинно ранитися
     runs-on: self-hosted

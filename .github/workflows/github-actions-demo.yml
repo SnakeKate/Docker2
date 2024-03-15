@@ -1,0 +1,40 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches: [ "*" ]
+jobs:
+  # Explore-GitHub-Actions:
+  
+  deploy:
+  # Вибираю де воно повинно ранитися
+    runs-on: self-hosted
+    steps:
+  # Клон репозиторія на сервер 
+     - uses: actions/checkout@v2
+  # Налаштовую AWS конфігурацію  
+  #   - name: Configure AWS Credentials
+  # Moдуль для підключення AWS  
+  #    uses: aws-actions/configure-aws-credentials@v4
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #      aws-region: eu-north-1
+  # Підключення до ECR  
+     - run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/f5x0f9b5
+     - run: docker build -t help .
+     - run: docker tag help:latest public.ecr.aws/f5x0f9b5/help:latest
+  # Push image до репозиторія ECR 
+     - run: docker push public.ecr.aws/f5x0f9b5/help:latest
+      
+     #- run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+     #- run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+     #- run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+     #- name: Check out repository code
+      # uses: actions/checkout@v4
+     #- run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+     #- run: echo "🖥️ The workflow is now ready to test your code on the runner."
+     #- name: List files in the repository
+      # run: |
+       #  ls ${{ github.workspace }}
+     #- run: echo "🍏 This job's status is ${{ job.status }}."
